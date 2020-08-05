@@ -1,0 +1,28 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/home/leanne/CLionProjects/autocircuit/graph.h
+iostream
+-
+algorithm
+-
+vector
+-
+string
+-
+stack
+-
+iterator
+-
+cassert
+-
+
+/home/leanne/CLionProjects/autocircuit/main.cpp
+graph.h
+/home/leanne/CLionProjects/autocircuit/graph.h
+
