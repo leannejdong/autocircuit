@@ -6,6 +6,26 @@
 
 #IncludeRegexTransform: 
 
+/home/leanne/CLionProjects/autocircuit/Mesh.cpp
+Mesh.h
+/home/leanne/CLionProjects/autocircuit/Mesh.h
+cstdio
+-
+cstdlib
+-
+cassert
+-
+algorithm
+-
+iterator
+-
+vector
+-
+
+/home/leanne/CLionProjects/autocircuit/Mesh.h
+graph.h
+/home/leanne/CLionProjects/autocircuit/graph.h
+
 /home/leanne/CLionProjects/autocircuit/graph.h
 iostream
 -
@@ -25,4 +45,6 @@ cassert
 /home/leanne/CLionProjects/autocircuit/main.cpp
 graph.h
 /home/leanne/CLionProjects/autocircuit/graph.h
+Mesh.cpp
+/home/leanne/CLionProjects/autocircuit/Mesh.cpp
 
