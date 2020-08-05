@@ -1,4 +1,5 @@
 #include "graph.h"
+#include "Mesh.cpp"
 
 template <class ForwardIterator>
 void print_cycles(ForwardIterator first, ForwardIterator last);
@@ -27,6 +28,17 @@ int main()
     print_cycles(begin(cycles), end(cycles));
 
     g.printMat();
+    cout << "\n";
+    Mesh mesh;
+
+    vector<vector<int>> foo = {{0, 1, 0},
+                               {1, 0, 1},
+                               {1, 0, 0}};
+    print_matrix(foo);
+    cout << "\n";
+    mesh.setdircur(3, 4, foo);
+    cout << "\n";
+    print_matrix(foo);
 }
 
 // Requires a sequence of closed cycles.
