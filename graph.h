@@ -18,7 +18,7 @@ namespace undirected {
         std::vector<std::vector<int>> treeAdjMat;
 
     public:
-        // Initialize the matrix to zero
+        // Initialize member variables and initialize the matrix to zero
         Graph(int nodeCount) : nodeCount(nodeCount), adjMatrix(nodeCount, std::vector<char>(nodeCount, false)),
                                treeAdjMat(nodeCount, std::vector<int>(nodeCount)) {}
 
