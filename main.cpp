@@ -1,8 +1,9 @@
 #include "graph.h"
 #include "Mesh.cpp"
+#include <fstream>
 
-template <class ForwardIterator>
-void print_cycles(ForwardIterator first, ForwardIterator last);
+template <class ForwardIterator, class OutputStream>
+void print_cycles(ForwardIterator first, ForwardIterator last, OutputStream &os);
 
 int main()
 {
@@ -25,7 +26,9 @@ int main()
 
     std::vector<int> cycles;
     g.Gotlieb(back_inserter(cycles));
-    print_cycles(begin(cycles), end(cycles));
+    std::ofstream of("cycles.data");
+    print_cycles(begin(cycles), end(cycles), cout);
+    print_cycles(begin(cycles), end(cycles), of);
 
     g.printMat();
     cout << "\n";
@@ -41,16 +44,17 @@ int main()
     print_matrix(foo);
 }
 
+
 // Requires a sequence of closed cycles.
-template <class ForwardIterator>
-void print_cycles(ForwardIterator first, ForwardIterator last)
+template <class ForwardIterator, class OutputStream>
+void print_cycles(ForwardIterator first, ForwardIterator last, OutputStream &os)
 {
     using T = typename iterator_traits<ForwardIterator>::value_type;
     while (first != last)
     {
         auto const cycle_start = first++;
         first = ++find(first, last, *cycle_start);
-        copy(cycle_start, first, ostream_iterator<T>(cout, " "));
-        cout << "\n";
+        copy(cycle_start, first, ostream_iterator<T>(os, " "));
+        os << "\n";
     }
 }
