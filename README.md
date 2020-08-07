@@ -8,7 +8,7 @@
   
 * network simulation
   
-  * set loop oritentation
+  * set loop oritentation (completed)
   
   * set equation system 
   
