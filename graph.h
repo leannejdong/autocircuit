@@ -147,6 +147,14 @@ namespace undirected {
                 for (int j = i; j < nodeCount; ++j)
                     if (treeAdjMat[i][j] !=orgAdjMat[i][j])
                         eliminatedEdges.emplace_back(i, j);
+//            auto const notEqual = [](auto p){ return p.first != p.second; };
+//            for(i=0; i<=r-1; i++)
+//            *m += count_if(make_zip_iterator(b[i], circuit[i]), make_zip_iterator(b[i] + r, circuit[i] + r, notEqual);
+// https://blog.galowicz.de/2016/09/04/algorithms_in_iterators/
+// https://blog.galowicz.de/2017/07/02/order2_iterator/
+// https://godbolt.org/z/1ve8zM
+
+            // count how many sides been eliminated to get the spanning tree
             // FINAL: Iterate through each eliminated edge, try adding it into mat B(treeAdjMat)
             // The use DFS to check the cycle, the source node is the first node of the edge
             for (auto edge: eliminatedEdges)
