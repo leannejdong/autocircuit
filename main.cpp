@@ -1,9 +1,14 @@
 #include "graph.h"
 #include "Mesh.cpp"
 #include <fstream>
+#include <sstream>
+
+using std::vector;
+using std::cout;
 
 template <class ForwardIterator, class OutputStream>
 void print_cycles(ForwardIterator first, ForwardIterator last, OutputStream &os);
+static void printIndmTo(std::ostream &stream, const vector<vector<int>> &indm);
 
 int main()
 {
@@ -25,7 +30,7 @@ int main()
     g.addEdge(10, 6);
 
     std::vector<int> cycles;
-    g.Gotlieb(back_inserter(cycles));
+    g.Gotlieb123(back_inserter(cycles));
     std::ofstream of("cycles.data");
     print_cycles(begin(cycles), end(cycles), cout);
     print_cycles(begin(cycles), end(cycles), of);
@@ -42,9 +47,45 @@ int main()
     mesh.setdircur(3, 4, foo);
     cout << "\n";
     print_matrix(foo);
+
+    static const char *circuit_matrix_text =
+            "0 1 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0\n"
+            "1 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0\n"
+            "0 1 0 1 0 0 1 0 0 0 0 0 0 0 0 0 0\n"
+            "0 0 1 0 1 0 0 1 0 0 0 0 0 0 0 0 0\n"
+            "0 0 0 1 0 0 0 0 1 0 0 0 0 0 0 0 0 \n"
+            "1 0 0 0 0 0 1 0 0 1 0 0 0 0 0 0 0\n"
+            "0 0 1 0 0 1 0 1 0 0 1 0 0 0 0 0 0\n"
+            "0 0 0 1 0 0 1 0 1 0 0 1 0 0 0 0 0\n"
+            "0 0 0 0 1 0 0 1 0 0 0 0 1 0 0 0 0 \n"
+            "0 0 0 0 0 1 0 0 0 0 1 0 0 1 0 0 0\n"
+            "0 0 0 0 0 0 1 0 0 1 0 1 0 0 1 0 0\n"
+            "0 0 0 0 0 0 0 1 0 0 1 0 1 0 0 1 0\n"
+            "0 0 0 0 0 0 0 0 1 0 0 1 0 0 0 0 1 \n"
+            "0 0 0 0 0 0 0 0 0 1 0 0 0 0 1 0 0\n"
+            "0 0 0 0 0 0 0 0 0 0 1 0 0 1 0 1 0\n"
+            "0 0 0 0 0 0 0 0 0 0 0 1 0 0 1 0 1\n"
+            "0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 1 0\n";
+
+    std::istringstream stream(circuit_matrix_text);
+    vector<vector<int>> matrix;
+
+    std::string line;
+    while (std::getline(stream, line)) {
+        std::istringstream line_stream(line);
+
+        int element;
+        vector<int> row;
+
+        while (line_stream >> element) {
+            row.push_back(element);
+        }
+
+        matrix.push_back(row);
+    }
+    std::ofstream outfile("indm.txt");
+    printIndmTo(outfile, matrix);
 }
-
-
 // Requires a sequence of closed cycles.
 template <class ForwardIterator, class OutputStream>
 void print_cycles(ForwardIterator first, ForwardIterator last, OutputStream &os)
@@ -58,3 +99,30 @@ void print_cycles(ForwardIterator first, ForwardIterator last, OutputStream &os)
         os << "\n";
     }
 }
+
+static void printIndmTo(std::ostream &stream, const vector<vector<int>> &indm)
+{
+    //ostream &stream = cerr;
+    for (size_t i=0; i!=indm.size(); ++i)
+    {
+        for (size_t j=0; j!=indm[i].size(); ++j)
+        {
+            if(j != 0)
+            {
+                stream << " ";
+            }
+            stream << indm[i][j];
+        }
+        stream << "\n";
+    }
+}
+
+// C++ automatically throw exception
+/*
+ * try {
+    runAlgorithm();
+  }
+  catch (std::bad_alloc&) {
+    std::cerr << "Ran out of memory\n";
+  }
+ */
