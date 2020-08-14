@@ -9,6 +9,8 @@ using std::cout;
 template <class ForwardIterator, class OutputStream>
 void print_cycles(ForwardIterator first, ForwardIterator last, OutputStream &os);
 static void printIndmTo(std::ostream &stream, const vector<vector<int>> &indm);
+static void printIndm(const vector<vector<int>> &indm);
+static vector<vector<bool>> makeBoolMatrixFromIntMatrix(const vector<vector<int>> &indm);
 
 int main()
 {
@@ -49,23 +51,36 @@ int main()
     print_matrix(foo);
 
     static const char *circuit_matrix_text =
-            "0 1 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0\n"
-            "1 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0\n"
-            "0 1 0 1 0 0 1 0 0 0 0 0 0 0 0 0 0\n"
-            "0 0 1 0 1 0 0 1 0 0 0 0 0 0 0 0 0\n"
-            "0 0 0 1 0 0 0 0 1 0 0 0 0 0 0 0 0 \n"
-            "1 0 0 0 0 0 1 0 0 1 0 0 0 0 0 0 0\n"
-            "0 0 1 0 0 1 0 1 0 0 1 0 0 0 0 0 0\n"
-            "0 0 0 1 0 0 1 0 1 0 0 1 0 0 0 0 0\n"
-            "0 0 0 0 1 0 0 1 0 0 0 0 1 0 0 0 0 \n"
-            "0 0 0 0 0 1 0 0 0 0 1 0 0 1 0 0 0\n"
-            "0 0 0 0 0 0 1 0 0 1 0 1 0 0 1 0 0\n"
-            "0 0 0 0 0 0 0 1 0 0 1 0 1 0 0 1 0\n"
-            "0 0 0 0 0 0 0 0 1 0 0 1 0 0 0 0 1 \n"
-            "0 0 0 0 0 0 0 0 0 1 0 0 0 0 1 0 0\n"
-            "0 0 0 0 0 0 0 0 0 0 1 0 0 1 0 1 0\n"
-            "0 0 0 0 0 0 0 0 0 0 0 1 0 0 1 0 1\n"
-            "0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 1 0\n";
+            "0 1 0 0 0 0 1 1 0 0 0\n"
+            "1 0 1 0 0 0 0 0 0 0 0\n"
+            "0 1 0 1 0 0 0 1 0 0 0\n"
+            "0 0 1 0 1 0 0 1 0 0 0\n"
+            "0 0 0 1 0 1 0 0 0 0 0\n"
+            "0 0 0 0 1 0 1 0 0 0 0\n"
+            "1 0 0 0 0 1 0 0 0 0 1\n"
+            "1 0 1 0 0 0 0 0 1 0 0\n"
+            "0 0 0 0 1 0 0 1 0 1 0\n"
+            "0 0 0 0 0 0 0 0 1 0 1\n"
+            "0 0 0 0 0 0 1 0 0 1 0\n";
+//
+//
+//            "0 1 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0\n"
+//            "1 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0\n"
+//            "0 1 0 1 0 0 1 0 0 0 0 0 0 0 0 0 0\n"
+//            "0 0 1 0 1 0 0 1 0 0 0 0 0 0 0 0 0\n"
+//            "0 0 0 1 0 0 0 0 1 0 0 0 0 0 0 0 0 \n"
+//            "1 0 0 0 0 0 1 0 0 1 0 0 0 0 0 0 0\n"
+//            "0 0 1 0 0 1 0 1 0 0 1 0 0 0 0 0 0\n"
+//            "0 0 0 1 0 0 1 0 1 0 0 1 0 0 0 0 0\n"
+//            "0 0 0 0 1 0 0 1 0 0 0 0 1 0 0 0 0 \n"
+//            "0 0 0 0 0 1 0 0 0 0 1 0 0 1 0 0 0\n"
+//            "0 0 0 0 0 0 1 0 0 1 0 1 0 0 1 0 0\n"
+//            "0 0 0 0 0 0 0 1 0 0 1 0 1 0 0 1 0\n"
+//            "0 0 0 0 0 0 0 0 1 0 0 1 0 0 0 0 1 \n"
+//            "0 0 0 0 0 0 0 0 0 1 0 0 0 0 1 0 0\n"
+//            "0 0 0 0 0 0 0 0 0 0 1 0 0 1 0 1 0\n"
+//            "0 0 0 0 0 0 0 0 0 0 0 1 0 0 1 0 1\n"
+//            "0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 1 0\n";
 
     std::istringstream stream(circuit_matrix_text);
     vector<vector<int>> matrix;
@@ -85,6 +100,13 @@ int main()
     }
     std::ofstream outfile("indm.txt");
     printIndmTo(outfile, matrix);
+    vector<vector<bool>> matrixBool = makeBoolMatrixFromIntMatrix(matrix);
+    //cout << matrixBool.size();
+    //cout << matrixBool[0].size() << "\n";
+    int r = matrixBool.size();
+    int m;
+    vector<vector<int>> output = g.Gotlieb4(r, &m, matrixBool);
+    printIndm(output);
 }
 // Requires a sequence of closed cycles.
 template <class ForwardIterator, class OutputStream>
@@ -115,6 +137,33 @@ static void printIndmTo(std::ostream &stream, const vector<vector<int>> &indm)
         }
         stream << "\n";
     }
+}
+
+static void printIndm(const vector<vector<int>> &indm)
+{
+    std::ostream &stream = std::cerr;
+
+    for (size_t i=0; i!=indm.size(); ++i) {
+        for (size_t j=0; j!=indm[i].size(); ++j) {
+            if (j != 0) {
+                stream << "  ";
+            }
+            stream << indm[i][j];
+        }
+        stream << "\n";
+    }
+}
+
+static vector<vector<bool>> makeBoolMatrixFromIntMatrix(const vector<vector<int>> &indm)
+{
+    vector<vector<bool>> result(indm.size());
+    for (size_t i=0; i!=indm.size(); ++i) {
+        result[i].resize(indm[i].size());
+        for (size_t j=0; j!=indm[i].size(); ++j) {
+            result[i][j] = (indm[i][j] != 0);
+        }
+    }
+    return result;
 }
 
 // C++ automatically throw exception

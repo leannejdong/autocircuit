@@ -186,6 +186,7 @@ namespace undirected {
                 assert(r==treeAdjMat_i.size());
                 *m += countDifference(treeAdjMat_i,adjMatrix_i);
             }
+            //cout << treeAdjMat.size();
             int &count = *m;
             count /= 2;
             //count how many sides have to be eliminated to obtain the tree graph = number of independent links
