@@ -22,6 +22,8 @@
 
 - CMake >= 3.16
 
+- Clang >10.0
+
 ### Linux
 
 #### Build and run from terminal
