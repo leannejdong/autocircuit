@@ -9,6 +9,8 @@
 #include <stack>
 #include <iterator>
 #include <cassert>
+#include <fstream>
+
 using namespace std;
 using std::vector;
 
@@ -171,11 +173,17 @@ namespace undirected {
             return cycles;
         };
 
-//        template <typename OutputIterator>
-//        OutputIterator Gotlieb4(OutputIterator indm)
+        const vector<vector<int>>&getTreeAdjMat() const
+        {
+            return treeAdjMat;
+        }
 
         vector<vector<int>> Gotlieb4(int r, int *m, vector<vector<bool>>& adjMatrix)
         {
+//            std::vector<int> cycles;
+//            Gotlieb123(back_inserter(cycles));
+//            std::ofstream of("cycles.data");
+//
             *m = 0; int i, j, k, c, nu, done;
 
             for(i=0; i<r; i++)

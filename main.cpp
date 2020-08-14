@@ -33,11 +33,13 @@ int main()
 
     std::vector<int> cycles;
     g.Gotlieb123(back_inserter(cycles));
+    vector<vector<int>> treeAdjMat = g.getTreeAdjMat();
     std::ofstream of("cycles.data");
     print_cycles(begin(cycles), end(cycles), cout);
     print_cycles(begin(cycles), end(cycles), of);
 
     g.printMat();
+    print_matrix(treeAdjMat);
     cout << "\n";
     Mesh mesh;
 
@@ -62,25 +64,6 @@ int main()
             "0 0 0 0 1 0 0 1 0 1 0\n"
             "0 0 0 0 0 0 0 0 1 0 1\n"
             "0 0 0 0 0 0 1 0 0 1 0\n";
-//
-//
-//            "0 1 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0\n"
-//            "1 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0\n"
-//            "0 1 0 1 0 0 1 0 0 0 0 0 0 0 0 0 0\n"
-//            "0 0 1 0 1 0 0 1 0 0 0 0 0 0 0 0 0\n"
-//            "0 0 0 1 0 0 0 0 1 0 0 0 0 0 0 0 0 \n"
-//            "1 0 0 0 0 0 1 0 0 1 0 0 0 0 0 0 0\n"
-//            "0 0 1 0 0 1 0 1 0 0 1 0 0 0 0 0 0\n"
-//            "0 0 0 1 0 0 1 0 1 0 0 1 0 0 0 0 0\n"
-//            "0 0 0 0 1 0 0 1 0 0 0 0 1 0 0 0 0 \n"
-//            "0 0 0 0 0 1 0 0 0 0 1 0 0 1 0 0 0\n"
-//            "0 0 0 0 0 0 1 0 0 1 0 1 0 0 1 0 0\n"
-//            "0 0 0 0 0 0 0 1 0 0 1 0 1 0 0 1 0\n"
-//            "0 0 0 0 0 0 0 0 1 0 0 1 0 0 0 0 1 \n"
-//            "0 0 0 0 0 0 0 0 0 1 0 0 0 0 1 0 0\n"
-//            "0 0 0 0 0 0 0 0 0 0 1 0 0 1 0 1 0\n"
-//            "0 0 0 0 0 0 0 0 0 0 0 1 0 0 1 0 1\n"
-//            "0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 1 0\n";
 
     std::istringstream stream(circuit_matrix_text);
     vector<vector<int>> matrix;
@@ -98,15 +81,17 @@ int main()
 
         matrix.push_back(row);
     }
-    std::ofstream outfile("indm.txt");
-    printIndmTo(outfile, matrix);
-    vector<vector<bool>> matrixBool = makeBoolMatrixFromIntMatrix(matrix);
+
+    vector<vector<bool>> treeAdjMatBool = makeBoolMatrixFromIntMatrix(treeAdjMat);
+    print_matrix(treeAdjMatBool);
     //cout << matrixBool.size();
     //cout << matrixBool[0].size() << "\n";
-    int r = matrixBool.size();
+    int r = treeAdjMatBool.size();
     int m;
-    vector<vector<int>> output = g.Gotlieb4(r, &m, matrixBool);
+    vector<vector<int>> output = g.Gotlieb4(r, &m, treeAdjMatBool);
     printIndm(output);
+    std::ofstream outfile1("indm.txt");
+    printIndmTo(outfile1, output);
 }
 // Requires a sequence of closed cycles.
 template <class ForwardIterator, class OutputStream>
