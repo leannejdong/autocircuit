@@ -22,7 +22,7 @@
 
 - CMake >= 3.16
 
-- Clang >10.0
+- Clang >= 10.0 (the use of `auto` in parameter declartion only available with '-fconcepts')
 
 ### Linux
 
