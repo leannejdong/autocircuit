@@ -16,10 +16,9 @@ using std::vector;
 
 namespace undirected {
     class Graph {
-    private:
-        int nodeCount;
-        vector<vector<bool>> adjMatrix;
-        vector<vector<int>> treeAdjMat;
+        int r;
+        std::vector<std::vector<bool>> adjMatrix;
+        std::vector<std::vector<int>> treeAdjMat;
 
         int countDifference(auto &treeAdjMat_i, auto &adjMatrix_i)
         {
@@ -31,37 +30,30 @@ namespace undirected {
         }
 
     public:
-        // Initialize member variables and initialize the matrix to zero
-        Graph(int nodeCount) : nodeCount(nodeCount), adjMatrix(nodeCount, vector<bool>(nodeCount, false)),
-                               treeAdjMat(nodeCount, vector<int>(nodeCount)) {}
+        // Initialize the matrix to zero
+        Graph(int r): r(r), adjMatrix(r, std::vector<bool>(r, false)),
+                      treeAdjMat(r, std::vector<int>(r)) {}
 
-        void addEdge(int i, int j)
-        {
-            if (i >= 0 && i < nodeCount && j >0 && j < nodeCount) {
-                adjMatrix[i][j] = true;
-                adjMatrix[j][i] = true;
-            }
-        };
-
-        void removeEdge(int i, int j)
-        {
-            if (i >= 0 && i < nodeCount && j > 0 && j < nodeCount) {
-                adjMatrix[i][j] = false;
-                adjMatrix[j][i] = false;
-            }
-        };
-
-        bool isEdge(int i, int j)
-        {
-            if (i >= 0 && i < nodeCount && j > 0 && j < nodeCount)
+        void addEdge(int i, int j) {
+            assert(i >= 0 && i < r && j > 0 && j < r);
+            adjMatrix[i][j] = true;
+            adjMatrix[j][i] = true;
+        }
+        void removeEdge(int i, int j) {
+            assert(i >= 0 && i < r && j > 0 && j < r);
+            adjMatrix[i][j] = false;
+            adjMatrix[j][i] = false;
+        }
+        bool isEdge(int i, int j) {
+            if (i >= 0 && i < r && j > 0 && j < r)
                 return adjMatrix[i][j];
             else
                 return false;
-        };
+        }
 
-        template <typename OutputIterator>
-        void DFSCheckCycle(vector<vector<int>> &adjMat, int u, int par, vector<bool> &visited,
-                                  vector<int> &parents, int source, OutputIterator &foundCycle)
+        template <class OutputIterator>
+        void DFSCheckCycle(std::vector<std::vector<int>> &adjMat, int u, int par, std::vector<bool> &visited,
+                           std::vector<int> &parents, int source, OutputIterator foundCycle)
         {
             if (visited[u]) {
                 if (u == source) {
@@ -85,16 +77,16 @@ namespace undirected {
                     DFSCheckCycle(adjMat, v, u, visited, parents, source, foundCycle);
                 }
             }
-        };
+        }
 
         template <typename OutputIterator>
         OutputIterator Gotlieb123(OutputIterator cycles)
         {
-            const auto nodeCount = adjMatrix.size();
+            const auto r = adjMatrix.size();
             // Initialize adjacency matrix for spanning tree
-            treeAdjMat = vector<vector<int>> (nodeCount, vector<int>(nodeCount, 0));
-            for (int i = 0; i < nodeCount; ++i) {
-                for (int j = i; j < nodeCount; ++j) {
+            treeAdjMat = vector<vector<int>> (r, vector<int>(r, 0));
+            for (int i = 0; i < r; ++i) {
+                for (int j = i; j < r; ++j) {
                     if (adjMatrix[i][j] == 1) {
                         treeAdjMat[i][j] = 1;
                         treeAdjMat[j][i] = 1;
@@ -109,12 +101,12 @@ namespace undirected {
             *                [ 0 0 0 0 1 0 ] ] */
 
             vector<vector<int>> connComponents;
-            vector<bool> visited(nodeCount, false);
-            for (int u = 0; u < nodeCount; ++u)
+            vector<bool> visited(r, false);
+            for (int u = 0; u < r; ++u)
             {
                 if (visited[u])
                     continue;
-                vector<int> component(nodeCount, 0);
+                vector<int> component(r, 0);
                 std::stack<int> s;
                 s.push(u);
                 while (!s.empty())
@@ -123,7 +115,7 @@ namespace undirected {
                     visited[v] = true;
                     component[v] = 1;
                     s.pop();
-                    for (int w = 0; w < nodeCount; w++)
+                    for (int w = 0; w < r; w++)
                     {
                         if (treeAdjMat[v][w] && !visited[w])
                         {
@@ -138,11 +130,11 @@ namespace undirected {
             adding appropriate edges to the adjacency matrix B (treeAdjMat)
             Example: edge(2, 5) and (2, 6) are added back to B
             */
-            vector<bool> checked(nodeCount);
+            vector<bool> checked(r);
             for (auto const &cmpt : connComponents)
-                for (int j = 0; j < nodeCount; ++j)
+                for (int j = 0; j < r; ++j)
                     if (cmpt[j] == 1)
-                        for (int k = 0; k < nodeCount; k++)
+                        for (int k = 0; k < r; k++)
                             if (adjMatrix[j][k] == 1 && cmpt[k] == 0 && !checked[k])
                             {
                                 treeAdjMat[k][j] = 1;
@@ -154,8 +146,8 @@ namespace undirected {
             build the spanning tree matrix
             */
             vector<std::pair<int, int>> eliminatedEdges;
-            for (int i = 0; i < nodeCount; ++i)
-                for (int j = i; j < nodeCount; ++j)
+            for (int i = 0; i < r; ++i)
+                for (int j = i; j < r; ++j)
                     if (treeAdjMat[i][j] !=adjMatrix[i][j])
                         eliminatedEdges.emplace_back(i, j);
 
@@ -164,8 +156,8 @@ namespace undirected {
             // The use DFS to check the cycle, the source node is the first node of the edge
             for (auto edge: eliminatedEdges)
             {
-                visited = vector<bool>(nodeCount, false);
-                vector<int> parents(nodeCount, -1);
+                visited = vector<bool>(r, false);
+                vector<int> parents(r, -1);
                 treeAdjMat[edge.first][edge.second] = treeAdjMat[edge.second][edge.first] = 1;
                 DFSCheckCycle(treeAdjMat, edge.first, -1, visited, parents, edge.first, cycles);
                 treeAdjMat[edge.first][edge.second] = treeAdjMat[edge.second][edge.first] = 0;
@@ -173,28 +165,25 @@ namespace undirected {
             return cycles;
         };
 
-        const vector<vector<int>>&getTreeAdjMat() const
+
+
+        const vector<vector<bool>>&getAdjMat() const
         {
-            return treeAdjMat;
+            return adjMatrix;
         }
 
         vector<vector<int>> Gotlieb4(int r, int *m, vector<vector<bool>>& adjMatrix)
         {
-//            std::vector<int> cycles;
-//            Gotlieb123(back_inserter(cycles));
-//            std::ofstream of("cycles.data");
-//
             *m = 0; int i, j, k, c, nu, done;
 
             for(i=0; i<r; i++)
             {
                 vector<int> &treeAdjMat_i = treeAdjMat[i];
                 vector<bool> &adjMatrix_i = adjMatrix[i];
-                int n_differences = 0;
+                //int n_differences = 0;
                 assert(r==treeAdjMat_i.size());
                 *m += countDifference(treeAdjMat_i,adjMatrix_i);
             }
-            //cout << treeAdjMat.size();
             int &count = *m;
             count /= 2;
             //count how many sides have to be eliminated to obtain the tree graph = number of independent links
@@ -230,12 +219,12 @@ namespace undirected {
             for(k=1; k<c; k=k+r+1){
                 while(done==0){
                     done=1;
-                    for(i=0; i<=r-1; i++){
-                        for(j=0; j<=r-1; j++) /*Count how many ones are on a line*/
+                    for(i=0; i<r; i++){
+                        for(j=0; j<r; j++) /*Count how many ones are on a line*/
                             if(indm[i][j+k]==1)
                                 nu++;
                         if(nu==1)       /*if there is only one,  make it null*/
-                            for(j=0; j<=r-1; j++)    /*I am in the j of 1*/
+                            for(j=0; j<r; j++)    /*I am in the j of 1*/
                                 if(indm[i][j+k]==1){
                                     indm[i][j+k]=0;
                                     indm[j][i+k]=0;
@@ -246,32 +235,29 @@ namespace undirected {
                 }
                 done=0;
             }
+
             return indm;
         }
-// https://blog.galowicz.de/2016/09/04/algorithms_in_iterators/
-// https://blog.galowicz.de/2017/07/02/order2_iterator/
-// https://godbolt.org/z/1ve8zM
 
-
-        void printMat()
-        {
+        void printMat() {
             int i, j;
-            for (i = 0; i < nodeCount; i++ )
+            for (i = 0; i < r; i++ )
             {
-                for (j = 0; j < nodeCount; j++)
+                for (j = 0; j < r; j++)
                 {
-                    std::cout << std::to_string(adjMatrix[i][j]) << " ";
+                    std::cout << to_string(adjMatrix[i][j]) << " ";
                 }
                 std::cout << "\t";
 
-                for (j = 0; j < nodeCount; j++)
+                for (j = 0; j < r; j++)
                 {
-                    std::cout << std::to_string(treeAdjMat[i][j]) << " ";
+                    std::cout << to_string(treeAdjMat[i][j]) << " ";
                 }
-
-                std::cout << std::endl;
+                cout << endl;
             }
-        };
+        }
+
+
     };
 
 

@@ -10,7 +10,7 @@ template <class ForwardIterator, class OutputStream>
 void print_cycles(ForwardIterator first, ForwardIterator last, OutputStream &os);
 static void printIndmTo(std::ostream &stream, const vector<vector<int>> &indm);
 static void printIndm(const vector<vector<int>> &indm);
-static vector<vector<bool>> makeBoolMatrixFromIntMatrix(const vector<vector<int>> &indm);
+//static vector<vector<bool>> makeBoolMatrixFromIntMatrix(const vector<vector<int>> &indm);
 
 int main()
 {
@@ -33,14 +33,15 @@ int main()
 
     std::vector<int> cycles;
     g.Gotlieb123(back_inserter(cycles));
-    vector<vector<int>> treeAdjMat = g.getTreeAdjMat();
+    vector<vector<bool>> adjMatrix = g.getAdjMat();
     std::ofstream of("cycles.data");
     print_cycles(begin(cycles), end(cycles), cout);
     print_cycles(begin(cycles), end(cycles), of);
 
     g.printMat();
-    print_matrix(treeAdjMat);
+    print_matrix(adjMatrix);
     cout << "\n";
+
     Mesh mesh;
 
     vector<vector<int>> foo = {{0, 1, 0},
@@ -82,13 +83,11 @@ int main()
         matrix.push_back(row);
     }
 
-    vector<vector<bool>> treeAdjMatBool = makeBoolMatrixFromIntMatrix(treeAdjMat);
-    print_matrix(treeAdjMatBool);
-    //cout << matrixBool.size();
-    //cout << matrixBool[0].size() << "\n";
-    int r = treeAdjMatBool.size();
+    // vector<vector<bool>> treeAdjMatBool = makeBoolMatrixFromIntMatrix(treeAdjMat);
+    print_matrix(adjMatrix);
+    int r = adjMatrix.size();
     int m;
-    vector<vector<int>> output = g.Gotlieb4(r, &m, treeAdjMatBool);
+    vector<vector<int>> output = g.Gotlieb4(r, &m, adjMatrix);
     printIndm(output);
     std::ofstream outfile1("indm.txt");
     printIndmTo(outfile1, output);
@@ -139,17 +138,17 @@ static void printIndm(const vector<vector<int>> &indm)
     }
 }
 
-static vector<vector<bool>> makeBoolMatrixFromIntMatrix(const vector<vector<int>> &indm)
-{
-    vector<vector<bool>> result(indm.size());
-    for (size_t i=0; i!=indm.size(); ++i) {
-        result[i].resize(indm[i].size());
-        for (size_t j=0; j!=indm[i].size(); ++j) {
-            result[i][j] = (indm[i][j] != 0);
-        }
-    }
-    return result;
-}
+//static vector<vector<bool>> makeBoolMatrixFromIntMatrix(const vector<vector<int>> &indm)
+//{
+//    vector<vector<bool>> result(indm.size());
+//    for (size_t i=0; i!=indm.size(); ++i) {
+//        result[i].resize(indm[i].size());
+//        for (size_t j=0; j!=indm[i].size(); ++j) {
+//            result[i][j] = (indm[i][j] != 0);
+//        }
+//    }
+//    return result;
+//}
 
 // C++ automatically throw exception
 /*
