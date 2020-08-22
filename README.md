@@ -10,17 +10,15 @@
   
   * set loop oritentation (completed)
   
-  * set equation system 
+  * set equation system (completed)
   
-  * Find branch current and voltage
+  * Find branch current and voltage (completed)
   
 ## Building
 
 ### Dependency required
 
-- CLion (2020.2)
-
-- CMake >= 3.16
+- CMake = 3.16
 
 - Clang >= 10.0 (the use of `auto` in parameter declartion only available with '-fconcepts')
 
@@ -32,8 +30,21 @@ git clone https://github.com/leannejdong/autocircuit.git
 cd autocircuit
 cmake -Bbuild -H.
 cmake --build build --target all
-cd build
-./autocircuit
+build/circuit
+```
+
+or without CMake
+```
+clang++-10 -std=c++2a main.cpp -Wall -Wextra  -o main
+```
+
+### Build and run with gdb debugger
+```
+cd autocircuit/cmake-build-debug/
+cmake -DCMAKE_BUILD_TYPE=Debug -DCMAKE_C_COMPILER=clang-10 -DCMAKE_CXX_COMPILER=clang++-10 ..
+make
+gdb ./autocircuit
+run
 ```
 
 #### Build from CLion
