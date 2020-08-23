@@ -11,7 +11,7 @@
 //#include <Eigen/Dense>
 #include <Eigen/LU>
 
-//constexpr auto ERROR = 1.0e-3;
+constexpr auto ERROR = 1.0e-3;
 static void printIndmTo(std::ostream &stream, const vector<vector<int>> &indm);
 //static void printIndm(const vector<vector<int>> &indm);
 
@@ -215,29 +215,29 @@ int main()
 
     vector<float> p(m);
 
-    mprove(A, eigenb);
+//    mprove(A, eigenb);
+//
+//    cout << m << endl;
 
-    cout << m << endl;
-
-//    int j = 0;
-//    while(j == 0)
-//    {
-//        for (int i = 0; i < m; i++)
-//        {
-//            for (int j = 0; j < m; j++)
-//                p[i] += (a[i][j]*x[j]);
-//            if (p[i] - b[i] <= ERROR && -ERROR <= p[i] - b[i])
-//            {
-//                cout << "\nThe result relative to the system of equations of the mesh method is corrected within the third decimal place.\n" << i + 1 << endl;
-//                j = 1;
-//            }
-//            else
-//            {
-//                mprove(A, eigenb);
-//            }
-//        }
-//    }
-//    for (auto i : x) {cout << i << endl;}
+    int j = 0;
+    while(j == 0)
+    {
+        for (int i = 0; i < m; i++)
+        {
+            for (int j = 0; j < m; j++)
+                p[i] += (a[i][j]*vec_soln[j]);
+            if (p[i] - b[i] <= ERROR && -ERROR <= p[i] - b[i])
+            {
+                cout << "\nThe result relative to the system of equations of the mesh method is corrected within the third decimal place.\n" << i + 1 << endl;
+                j = 1;
+            }
+            else
+            {
+                mprove(A, eigenb);
+            }
+        }
+    }
+    for (auto i : vec_soln) {cout << i << endl;}
 
     vector<vector<float>> current;
 
