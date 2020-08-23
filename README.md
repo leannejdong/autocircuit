@@ -33,12 +33,12 @@ cmake -Bbuild -H.
 cmake --build build --target all
 build/circuit
 ```
-
+<!---
 #### Quick build without CMake
 ```
 clang++-10 -std=c++2a main.cpp -Wall -Wextra  -o main
 ```
-
+--->
 #### Build and run with gdb debugger
 ```
 cd autocircuit

@@ -4,12 +4,12 @@
 #include "eigenutil.h"
 #include "sovr.h"
 #include "tension.h"
-#include <fstream>
+//#include <fstream>
 #include <iostream>
-#include <sstream>
+//#include <sstream>
 #include <iterator>
-#include </usr/include/eigen3/Eigen/Dense>
-#include </usr/include/eigen3/Eigen/LU>
+//#include <Eigen/Dense>
+#include <Eigen/LU>
 
 //constexpr auto ERROR = 1.0e-3;
 static void printIndmTo(std::ostream &stream, const vector<vector<int>> &indm);
