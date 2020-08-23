@@ -1,5 +1,5 @@
 # Network automation and simulation: a graph theoretics approach
-### intended as an undergraduate/advanced high school C++ project (under development)
+### could become a high school physic C++ project (under development)
 
 * cycles detection
 
@@ -34,7 +34,7 @@ cmake --build build --target all
 build/circuit
 ```
 
-Quick build without CMake
+### Quick build without CMake
 ```
 clang++-10 -std=c++2a main.cpp -Wall -Wextra  -o main
 ```
@@ -54,7 +54,7 @@ run
 
 Open the project directory and hit `shift-f10`
 
-## Reference
+## Reference/Acknowledgement
 
       @article{tsm2015,
       title={Using graph theory for automated electric circuit solving},
