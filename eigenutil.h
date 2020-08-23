@@ -4,8 +4,8 @@
 #include <vector>
 #include <fstream>
 
-#include </usr/include/eigen3/Eigen/Dense>
-#include </usr/include/eigen3/Eigen/LU>
+#include <Eigen/Dense>
+#include <Eigen/LU>
 
 void mprove(Eigen::MatrixXf A, Eigen::VectorXf eigenb)
 {
