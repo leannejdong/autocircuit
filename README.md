@@ -1,5 +1,5 @@
 # Network automation and simulation: a graph theoretics approach
-### could become a high school physic C++ project (under development)
+### A hobby  high school physic C++ project (under development)
 
 * cycles detection
 
@@ -34,7 +34,7 @@ cmake --build build --target all
 build/circuit
 ```
 
-### Quick build without CMake
+#### Quick build without CMake
 ```
 clang++-10 -std=c++2a main.cpp -Wall -Wextra  -o main
 ```
