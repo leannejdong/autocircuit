@@ -39,7 +39,7 @@ or without CMake
 clang++-10 -std=c++2a main.cpp -Wall -Wextra  -o main
 ```
 
-### Build and run with gdb debugger
+#### Build and run with gdb debugger
 ```
 cd autocircuit/cmake-build-debug/
 cmake -DCMAKE_BUILD_TYPE=Debug -DCMAKE_C_COMPILER=clang-10 -DCMAKE_CXX_COMPILER=clang++-10 ..
