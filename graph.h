@@ -76,7 +76,7 @@ public:
         visited[u] = true;
         parents[u] = par;
         for (size_t v = 0; v < adjMat.size(); ++v) {
-            if (adjMat[u][v] == 1 && v != parents[u]) {
+            if (adjMat[u][v] == 1 && int(v) != parents[u]) {
                 DFSCheckCycle(adjMat, v, u, visited, parents, source, foundCycle);
             }
         }
@@ -89,8 +89,8 @@ public:
         const auto r = adjMatrix.size();
         // Initialize adjacency matrix for spanning tree
         treeAdjMat = std::vector<std::vector<int>> (r, std::vector<int>(r, 0));
-        for (int i = 0; i < r; ++i) {
-            for (int j = i; j < r; ++j) {
+        for (size_t i = 0; i < r; ++i) {
+            for (size_t j = i; j < r; ++j) {
                 if (adjMatrix[i][j] == 1) {
                     treeAdjMat[i][j] = 1;
                     treeAdjMat[j][i] = 1;
@@ -106,7 +106,7 @@ public:
 
         std::vector<std::vector<int>> connComponents;
         std::vector<bool> visited(r, false);
-        for (int u = 0; u < r; ++u)
+        for (size_t u = 0; u < r; ++u)
         {
             if (visited[u])
                 continue;
@@ -119,7 +119,7 @@ public:
                 visited[v] = true;
                 component[v] = 1;
                 s.pop();
-                for (int w = 0; w < r; w++)
+                for (std::size_t w = 0; w < r; w++)
                 {
                     if (treeAdjMat[v][w] && !visited[w])
                     {
@@ -136,9 +136,9 @@ public:
         */
         std::vector<bool> checked(r);
         for (auto const &cmpt : connComponents)
-            for (int j = 0; j < r; ++j)
+            for (size_t j = 0; j < r; ++j)
                 if (cmpt[j] == 1)
-                    for (int k = 0; k < r; k++)
+                    for (size_t k = 0; k < r; k++)
                         if (adjMatrix[j][k] == 1 && cmpt[k] == 0 && !checked[k])
                         {
                             treeAdjMat[k][j] = 1;
@@ -150,8 +150,8 @@ public:
         build the spanning tree matrix
         */
         std::vector<std::pair<int, int>> eliminatedEdges;
-        for (int i = 0; i < r; ++i)
-            for (int j = i; j < r; ++j)
+        for (size_t i = 0; i < r; ++i)
+            for (size_t j = i; j < r; ++j)
                 if (treeAdjMat[i][j] !=adjMatrix[i][j])
                     eliminatedEdges.emplace_back(i, j);
 
@@ -174,9 +174,9 @@ public:
         return adjMatrix;
     }
 
-    std::vector<std::vector<int>> Gotlieb4(int r, int *m, std::vector<std::vector<bool>> &adjMatrix)
+    std::vector<std::vector<int>> Gotlieb4(std::size_t r, int *m, std::vector<std::vector<bool>> &adjMatrix)
     {
-        *m = 0; int i, j, k, c, nu, done;
+        *m = 0; int k, c, nu, done; size_t i, j;
 
         for(i=0; i<r; i++)
         {
@@ -191,12 +191,12 @@ public:
         //count how many sides have to be eliminated to obtain the tree graph = number of independent links
         c = r*count + count + 1;
         std::vector<std::vector<int>> indm(r);
-        for (int i = 0; i<r; ++i)
+        for (i = 0; i<r; ++i)
         {
             indm[i].resize(c);
         }
         for (j = 0; j < c-r; j = j+r+1)
-            for (i = 0; i<r; i++)
+            for (size_t i = 0; i<r; i++)
                 indm[i][j] = -4;
         for (i = 0; i < r; i++)
             indm[i][c-1]=-5;
