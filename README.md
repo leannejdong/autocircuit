@@ -1,5 +1,5 @@
 # Network automation and simulation: a graph theoretics approach
-### A hobby  high school physic C++ project (under development)
+### A hobby  high school physic C++ project (with warnings about Eigen)
 
 * cycles detection
 
@@ -7,7 +7,7 @@
   
   * construction of independent loops (completed)
 
-  * network simulation
+* network simulation
   
   * set loop oritentation (completed)
   
