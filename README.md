@@ -1,13 +1,13 @@
 # Network automation and simulation: a graph theoretics approach
-(under development)
+### intended as an undergraduate/advanced high school C++ project (under development)
 
 * cycles detection
 
   * construction of spanning tree (completed)
   
   * construction of independent loops (completed)
-  
-* network simulation
+
+  * network simulation
   
   * set loop oritentation (completed)
   
@@ -44,7 +44,7 @@ clang++-10 -std=c++2a main.cpp -Wall -Wextra  -o main
 cd autocircuit/cmake-build-debug/
 cmake -DCMAKE_BUILD_TYPE=Debug -DCMAKE_C_COMPILER=clang-10 -DCMAKE_CXX_COMPILER=clang++-10 ..
 make
-gdb ./autocircuit
+gdb ./circuit
 run
 ```
 
