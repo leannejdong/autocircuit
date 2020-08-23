@@ -8,7 +8,6 @@
 
 class mesh {
 private:
-    int m, c;
     std::vector<std::vector<float>> res;
     std::vector<std::vector<float>> volt;
     std::vector<std::vector<float>> current;

@@ -11,9 +11,9 @@
 #include </usr/include/eigen3/Eigen/Dense>
 #include </usr/include/eigen3/Eigen/LU>
 
-constexpr auto ERROR = 1.0e-3;
+//constexpr auto ERROR = 1.0e-3;
 static void printIndmTo(std::ostream &stream, const vector<vector<int>> &indm);
-static void printIndm(const vector<vector<int>> &indm);
+//static void printIndm(const vector<vector<int>> &indm);
 
 int main()
 {
@@ -271,20 +271,20 @@ static void printIndmTo(std::ostream &stream, const vector<vector<int>> &indm)
     }
 }
 
-static void printIndm(const vector<vector<int>> &indm)
-{
-    std::ostream &stream = std::cerr;
-
-    for (size_t i=0; i!=indm.size(); ++i) {
-        for (size_t j=0; j!=indm[i].size(); ++j) {
-            if (j != 0) {
-                stream << "  ";
-            }
-            stream << indm[i][j];
-        }
-        stream << "\n";
-    }
-}
+//static void printIndm(const vector<vector<int>> &indm)
+//{
+//    std::ostream &stream = std::cerr;
+//
+//    for (size_t i=0; i!=indm.size(); ++i) {
+//        for (size_t j=0; j!=indm[i].size(); ++j) {
+//            if (j != 0) {
+//                stream << "  ";
+//            }
+//            stream << indm[i][j];
+//        }
+//        stream << "\n";
+//    }
+//}
 
 //static vector<vector<bool>> makeBoolMatrixFromIntMatrix(const vector<vector<int>> &indm)
 //{
