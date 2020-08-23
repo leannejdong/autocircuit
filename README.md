@@ -33,12 +33,12 @@ cmake -Bbuild -H.
 cmake --build build --target all
 build/circuit
 ```
-<!---
-#### Quick build without CMake
+
+#### Quick build without CMake (some warnings about eigen)
 ```
-clang++-10 -std=c++2a main.cpp -Wall -Wextra  -o main
+clang++-10 -std=c++2a main.cpp -Wall -Wextra  -o main -isystem /usr/include/eigen3
 ```
---->
+
 #### Build and run with gdb debugger
 ```
 cd autocircuit
