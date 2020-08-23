@@ -93,6 +93,10 @@ int main()
     int r, m;
     std::string dummy;
     std::ifstream file_stream("inputmat.dat");
+    if (!file_stream) {
+        std::cerr << "Unable to open inputmat.dat\n";
+        return EXIT_FAILURE;
+    }
 
     if (!file_stream) {
         cout << "\nThe data file could not be opened!\n";

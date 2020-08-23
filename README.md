@@ -1,4 +1,5 @@
-# Network automation and simulation (Under Development!)
+# Network automation and simulation: a graph theoretics approach
+(under development)
 
 * cycles detection
 
