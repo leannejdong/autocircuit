@@ -215,29 +215,21 @@ int main()
 
     vector<float> p(m);
 
-//    mprove(A, eigenb);
-//
-//    cout << m << endl;
+    double err2 = ((A * soln).cast<double>() - eigenb.cast<double>()).squaredNorm();
 
-    int j = 0;
-    while(j == 0)
-    {
-        for (int i = 0; i < m; i++)
-        {
-            for (int j = 0; j < m; j++)
-                p[i] += (a[i][j]*vec_soln[j]);
-            if (p[i] - b[i] <= ERROR && -ERROR <= p[i] - b[i])
-            {
-                cout << "\nThe result relative to the system of equations of the mesh method is corrected within the third decimal place.\n" << i + 1 << endl;
-                j = 1;
-            }
-            else
-            {
-                mprove(A, eigenb);
-            }
-        }
-    }
-    for (auto i : vec_soln) {cout << i << endl;}
+    const int max_it = 10;
+
+    std::cout << "Error before: " << std::sqrt(err2) << std::endl;
+    int it = 0;
+    do {
+        mprove(A, eigenb, soln);
+        err2 = ((A * soln).cast<double>() - eigenb.cast<double>()).squaredNorm();
+        it++;
+        // more for debug
+        std::cout << " Error after step: " << it << ": " << std::sqrt(err2) << std::endl;
+    } while (err2 > ERROR * ERROR && it < max_it);
+
+    vec_soln = makeVectorsFromEigen(soln);
 
     vector<vector<float>> current;
 
