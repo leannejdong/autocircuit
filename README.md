@@ -50,7 +50,7 @@ gdb ./circuit
 run
 ```
 
-#### Build from CLion
+#### Build from CLion (Best choice for windows user)
 
 Open the project directory and hit `shift-f10`
 
