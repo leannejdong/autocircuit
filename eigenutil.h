@@ -7,16 +7,14 @@
 #include <Eigen/Dense>
 #include <Eigen/LU>
 
-inline void mprove(Eigen::MatrixXf A_float, Eigen::VectorXf eigenb_float)
+inline void mprove(Eigen::MatrixXf &A, const Eigen::VectorXf &b, Eigen::VectorXf &refinesoln)
 {
-    Eigen::MatrixXd A = A_float.cast<double>();
-    Eigen::VectorXd eigenb = eigenb_float.cast<double>();
-    Eigen::FullPivLU<Eigen::MatrixXd> lu = A.fullPivLu();
-    Eigen::VectorXd refinesoln = lu.solve(eigenb);
-    Eigen::VectorXd db = A*refinesoln - eigenb;
+    Eigen::FullPivLU<Eigen::MatrixXf> lu(A);
+    Eigen::VectorXf db =
+            ((A * refinesoln).cast<double>() - b.cast<double>()).cast<float>();
     refinesoln = refinesoln - lu.solve(db);
-    // std::cout <<"The soln is : \n" << refinesoln << endl;
 }
+
 
 std::vector<std::vector<float>> makeMatrix(int n_rows, int n_cols)
 {
