@@ -1,5 +1,5 @@
 # Network automation and simulation: a graph theoretics approach
-### A hobby  high school physic C++ project (with warnings about Eigen)
+### A hobby  high school physic C++ project 
 
 * cycles detection
 
@@ -53,6 +53,14 @@ run
 #### Build from CLion
 
 Open the project directory and hit `shift-f10`
+
+## Future development
+
+* Test on solving some practical use case circuits
+
+* Could move to Boost Graph Library for more efficient graph manipulation
+
+* Could be prettier with more generics.
 
 ## Reference/Acknowledgement
 
