@@ -23,6 +23,7 @@
 
 - Clang >= 10.0 (the use of `auto` in parameter declartion only available with '-fconcepts')
 
+- Eigen3.3
 ### Linux
 
 #### Build and run from terminal

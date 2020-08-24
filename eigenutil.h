@@ -7,12 +7,18 @@
 #include <Eigen/Dense>
 #include <Eigen/LU>
 
-inline void mprove(Eigen::MatrixXf &A, const Eigen::VectorXf &b, Eigen::VectorXf &refinesoln)
+inline Eigen::VectorXf computeDifference(const Eigen::MatrixXf &A, const Eigen::VectorXf &x, const Eigen::VectorXf &b)
 {
-    Eigen::FullPivLU<Eigen::MatrixXf> lu(A);
-    Eigen::VectorXf db =
-            ((A * refinesoln).cast<double>() - b.cast<double>()).cast<float>();
-    refinesoln = refinesoln - lu.solve(db);
+    return ((A * x).cast<double>() - b.cast<double>()).cast<float>();
+}
+
+template <typename Solver>
+
+inline void solnrefine(const Solver &solver, const Eigen::MatrixXf &A, const Eigen::VectorXf &b, Eigen::VectorXf &refinesoln)
+{
+    //Eigen::FullPivLU<Eigen::MatrixXf> lu(A);
+    Eigen::VectorXf db = computeDifference(A, refinesoln, b);
+    refinesoln = refinesoln - solver.solve(db);
 }
 
 

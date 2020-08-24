@@ -209,21 +209,28 @@ int main()
     cout << "Here is the rhs b:\n" << eigenb << endl;
     VectorXf eigenx = makeEigenVectorFromVectors(x);
     cout << "Here is the  x:\n" << eigenx << endl;
-    VectorXf soln = A.colPivHouseholderQr().solve(eigenb);
-    cout << "The solution is:\n" << soln << endl;
-    vector<float> vec_soln = makeVectorsFromEigen(soln);
+    VectorXf soln0 = A.colPivHouseholderQr().solve(eigenb);
+    cout << "The solution is:\n" << soln0 << endl;
+    vector<float> vec_soln = makeVectorsFromEigen(soln0);
 
     vector<float> p(m);
 
-    double err2 = ((A * soln).cast<double>() - eigenb.cast<double>()).squaredNorm();
+    Eigen::FullPivLU<Eigen::MatrixXf> lu(A);
+    VectorXf soln = lu.solve(eigenb);
+    cout << "The solution is : \n" << soln << endl;
+
+    double err2 = computeDifference(A, soln, eigenb).squaredNorm();
 
     const int max_it = 10;
 
     std::cout << "Error before: " << std::sqrt(err2) << std::endl;
     int it = 0;
     do {
-        mprove(A, eigenb, soln);
-        err2 = ((A * soln).cast<double>() - eigenb.cast<double>()).squaredNorm();
+        // refine solution
+        solnrefine(lu, A, eigenb, soln);
+        // compute new error
+        // could also just use
+        err2 = computeDifference(A, soln, eigenb).squaredNorm();
         it++;
         // more for debug
         std::cout << " Error after step: " << it << ": " << std::sqrt(err2) << std::endl;
