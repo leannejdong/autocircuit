@@ -54,19 +54,22 @@ public:
             return false;
     }
 
+
+
     template<class OutputIterator>
     void DFSCheckCycle(std::vector<std::vector<int>> &adjMat, size_t u, size_t par, std::vector<bool> &visited,
                        std::vector<int> &parents, size_t source, OutputIterator foundCycle)
     {
-        if (visited[u]) {
+        if (visited[u]) {  // if u is visited
             if (u == source) {
-                //cycle found
+                // mark u as seen by setting its parents
                 parents[u] = par;
                 while (true) {
+                    // cycle found,
                     *foundCycle++ = u;
                     u = parents[u];
                     if (u == source) {
-                        *foundCycle++ = u;
+                        *foundCycle++ = u;  // foundCycle.push_back(u);
                         break;
                     }
                 }
@@ -82,7 +85,9 @@ public:
         }
     }
 
-
+    // Block1: Partition the set of n nodes w.r.t. chosen edges to form a set of disjoint trees with
+    // adjacency matrix B. For if row i of adjMatrix, set treeAdjMatrix[i][j] = 1 if
+    // adjMatrix[i][j] is the 1st superdiagonal element of ith row of adjMatrix
     template<typename OutputIterator>
     OutputIterator Gotlieb123(OutputIterator cycles)
     {
@@ -101,8 +106,12 @@ public:
 
         // BLOCK 2: Find all connected components
         /* Example: C = [ [ 1 1 1 0 0 1 ],
-        *                [ 0 0 0 1 0 0 ],
-        *                [ 0 0 0 0 1 0 ] ] */
+         *                [ 0 0 0 1 0 0 ],
+         *                [ 0 0 0 0 1 0 ]]
+         * It is like walking through a maze. Similar to DFS,
+         * we need to know which way to go.
+         * When we hit a dead end, we take the first thing off
+         * the stack and go back there and try */
 
         std::vector<std::vector<int>> connComponents;
         std::vector<bool> visited(r, false);
@@ -123,7 +132,7 @@ public:
                 {
                     if (treeAdjMat[v][w] && !visited[w])
                     {
-                        s.push(w);
+                        s.push(w); // put one branch and try onto stack
                     }
                 }
             }

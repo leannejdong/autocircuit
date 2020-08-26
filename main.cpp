@@ -35,7 +35,7 @@ int main()
     g.addEdge(10, 6);
 
     std::vector<int> cycles;
-    g.Gotlieb123(back_inserter(cycles));
+    g.Gotlieb123(back_inserter(cycles));// the parameter needs to be a back-insert iterator that inserts new elements at end of containers to which it is applied.
     vector<vector<bool>> adjMatrix = g.getAdjMat();
     std::ofstream of("cycles.data");
     print_cycles(begin(cycles), end(cycles), cout);
@@ -92,7 +92,7 @@ int main()
     //int r = adjMatrix.size();
     int r, m;
     std::string dummy;
-    std::ifstream file_stream("inputmat.dat");
+    std::ifstream file_stream("inputmat.dat"); // create an input file stream
     if (!file_stream) {
         std::cerr << "Unable to open inputmat.dat\n";
         return EXIT_FAILURE;

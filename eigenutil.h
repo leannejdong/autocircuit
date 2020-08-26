@@ -32,5 +32,4 @@ std::vector<std::vector<float>> makeMatrix(int n_rows, int n_cols)
 }
 
 
-
 #endif //CIRCUIT_EIGENUTIL_H
