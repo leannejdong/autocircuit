@@ -1,15 +1,14 @@
 # Network automation and simulation: a graph theoretics approach
-### A hobby  high school physic C++ project 
 
-* cycles detection
+ * network automation 
+
+  * cycles detection
 
   * construction of spanning tree (completed)
   
-  * construction of independent loops (completed)
-
 * network simulation
   
-  * set loop oritentation (completed)
+  * set loop orientation (completed)
   
   * set equation system (completed)
   
@@ -21,10 +20,11 @@
 
 - CMake = 3.16
 
-- Clang >= 10.0 (the use of `auto` in parameter declartion only available with '-fconcepts')
+- Clang >= 10.0 (the use of `auto` in parameter declaration only available with '-fconcepts')
 
 - Eigen3.3
-### Linux
+
+### Linux 
 
 #### Build and run from terminal
 ```
@@ -35,9 +35,9 @@ cmake --build build --target all
 build/circuit
 ```
 
-#### Quick build without CMake (some warnings about eigen)
+#### Quick build without Make (some warnings about eigen)
 ```
-clang++-10 -std=c++2a main.cpp -Wall -Wextra  -o main -isystem /usr/include/eigen3
+clang++-10 -std=c++2a main.cpp -Wall -Wextra  -o circuit -isystem /usr/include/eigen3
 ```
 
 #### Build and run with gdb debugger
@@ -57,9 +57,9 @@ Open the project directory and hit `shift-f10`
 
 ## Future development
 
-* Test on solving some practical use case circuits
+* Test on solving some practical use case circuits.
 
-* Could move to Boost Graph Library for more efficient graph manipulation
+* Could move to Boost Graph Library for more efficient graph manipulation.
 
 * Could be prettier with more generics.
 
