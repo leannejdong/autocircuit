@@ -1,1 +1,0 @@
-/usr/bin/c++     CMakeFiles/circuit.dir/main.cpp.o  -o circuit 
