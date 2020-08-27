@@ -1,6 +1,6 @@
 # Network automation and simulation: a graph theoretics approach
 
- * network automation 
+* network automation 
 
   * cycles detection
 
