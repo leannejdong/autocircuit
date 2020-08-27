@@ -3,7 +3,7 @@
 #include "eigenconv.h"
 #include "eigenutil.h"
 #include "sovr.h"
-#include "tension.h"
+#include "voltage.h"
 //#include <fstream>
 #include <iostream>
 //#include <sstream>
@@ -244,10 +244,10 @@ int main()
 //
     mesh1.print_matrix(current);
     std::ostringstream output_stream;
-    tension(r, res, current, volt, output_stream);
+    voltage(r, res, current, volt, output_stream);
     std::string output = output_stream.str();
     std::cerr << output << "\n";
-    std::ofstream file_stream1("tension.dat");
+    std::ofstream file_stream1("voltage.dat");
     file_stream1 << output;
 
 
