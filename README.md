@@ -18,7 +18,7 @@
 
 ### Dependency required
 
-- CMake = 3.16
+- CMake = 3.12
 
 - Clang >= 10.0 (the use of `auto` in parameter declaration only available with '-fconcepts')
 
