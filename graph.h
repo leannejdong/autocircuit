@@ -143,17 +143,42 @@ public:
         adding appropriate edges to the adjacency matrix B (treeAdjMat)
         Example: edge(2, 5) and (2, 6) are added back to B
         */
-        std::vector<bool> checked(r);
-        for (auto const &cmpt : connComponents)
-            for (size_t j = 0; j < r; ++j)
-                if (cmpt[j] == 1)
-                    for (size_t k = 0; k < r; k++)
-                        if (adjMatrix[j][k] == 1 && cmpt[k] == 0 && !checked[k])
-                        {
-                            treeAdjMat[k][j] = 1;
-                            treeAdjMat[j][k] = 1;
-                            checked[k] = true;
-                        }
+        //NOTE:
+        //  some utility functions for connected components - jeh
+        auto connComponentOrder = [](auto &c){ return std::count(std::begin(c),std::end(c),true); };
+        auto toComponent =
+                [&](auto n)->auto &{ //NOTE: return auto &, since we get a copy by default - jeh
+                  return *std::find_if(std::begin(connComponents),std::end(connComponents),[&](auto &c){ return c[n]; });
+                };
+
+        while(connComponents.size() > 1){
+            //NOTE:
+            //  sort the components in descending order (node count). descending so that we can easily remove the smallest with a pop_back.
+            //  - jeh
+            std::sort(std::begin(connComponents),std::end(connComponents),[&](auto &c0,auto &c1){ return connComponentOrder(c0) > connComponentOrder(c1); });
+            auto &small = connComponents.back();
+            auto &big =
+                    [&]()->auto &{ //NOTE: find cross edge to bigger component, auto & again to get reference - jeh
+                      for (int i = 0; i < r; ++i){
+                          if(!small[i])
+                              continue;
+                          for (int j = 0; j < r; ++j){
+                              if(adjMatrix[i][j] == 1 && !small[j]){
+                                  treeAdjMat[i][j] = 1;
+                                  treeAdjMat[j][i] = 1;
+                                  return toComponent(j);
+                              }
+                          }
+                      }
+                      __builtin_unreachable(); //NOTE: we should never reach this - jeh
+                    }();
+
+            //NOTE: move the nodes from small component to big component - jeh
+            for (int i = 0; i < r; ++i)
+                if(small[i])
+                    big[i] = true;
+            connComponents.pop_back();
+        }
         // BLOCK 4
         /* Collect all edges eliminated from the original adjacency matrix to
         build the spanning tree matrix
