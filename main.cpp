@@ -34,6 +34,18 @@ int main()
     g.addEdge(9, 10);
     g.addEdge(10, 6);
 
+//    graph g(8);
+//    g.addEdge(0, 1);
+//    g.addEdge(5, 1);
+//    g.addEdge(5, 2);
+//    g.addEdge(5, 3);
+//    g.addEdge(6, 3);
+//    g.addEdge(6, 4);
+//    g.addEdge(7, 4);
+//    g.addEdge(7, 1);
+//    g.addEdge(7, 2);
+
+
     std::vector<int> cycles;
     g.Gotlieb123(back_inserter(cycles));// the parameter needs to be a back-insert iterator that inserts new elements at end of containers to which it is applied.
     vector<vector<bool>> adjMatrix = g.getAdjMat();
@@ -127,12 +139,9 @@ int main()
     mesh1.print_matrix(adjMatrix);
 
 //    std::getline(file_stream, dummy);
-//    for(int i=0; i<r; i++)            /*I scan the numeric values ​​and assign them to circuit*/
+//    for(int i=0; i<r; i++)            /*scan the numeric values and assign them to circuit*/
 //        for(int j=0; j<r; j++)
 //            file_stream >> adjMatrix[i][j];
-
-
-
     vector<vector<int>> mcurrent = g.Gotlieb4(r, &m, adjMatrix);
     //printIndm(output);
     std::ofstream outfile1("indm.txt");
@@ -140,8 +149,9 @@ int main()
     mesh1.print_matrix(mcurrent);
 
     int c = r*m + m + 1;
-    std::cout << c << " \n";
-    std::cout << r << " \n";
+//    std::cout << m << "\n";
+//    std::cout << c << " \n";
+//    std::cout << r << " \n";
     mesh1.setdircur(r, c, mcurrent);
     mesh1.print_matrix(mcurrent);
 
@@ -194,10 +204,7 @@ int main()
 
     vector<float> b(m);
 
-   // for (auto i : b) {cout << i << endl;}
     mesh1.createb(b, r, c, m, volt, mcurrent);
-
-   // for (auto i : b) {cout << i << endl;}
 
     vector<float> x(m);
 
