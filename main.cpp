@@ -53,12 +53,12 @@ int main()
     print_cycles(begin(cycles), end(cycles), cout);
     print_cycles(begin(cycles), end(cycles), of);
 
-  //  g.printMat();
+    //  g.printMat();
 
     mesh mesh1;
 
-  //  mesh1.print_matrix(adjMatrix);
-  //  cout << "\n";
+    //  mesh1.print_matrix(adjMatrix);
+    //  cout << "\n";
 
 //    vector<vector<int>> foo = {{0, 1, 0},
 //                               {1, 0, 1},
@@ -169,9 +169,9 @@ int main()
     {
         for(auto &element : row)
         {
-          //  bool value;
+            //  bool value;
             file_stream >> element;
-          //  element = value;
+            //  element = value;
         }
     }
     mesh1.print_matrix(res);
