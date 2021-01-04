@@ -231,21 +231,23 @@ public:
         }
         for (j = 0; j < c-r; j = j+r+1)
             for (size_t i = 0; i<r; i++)
-                indm[i][j] = -4;
+                indm.at(i).at(j) = -4;
         for (i = 0; i < r; i++)
-            indm[i][c-1]=-5;
+            indm.at(i).at(c-1)=-5;
         for (k = 1; k < c; k=k+r+1)
             for(i = 0; i < r; i++)
                 for(j = 0; j < r; j++)
-                    indm[i][j+k] = treeAdjMat[i][j];
+                    indm.at(i).at(j+k) = treeAdjMat.at(i).at(j);
         // add the sides at a time
         k = 1;
         for(i = 0; i < r; i++)
             for(j = i+1; j<r; j++)
-                if(adjMatrix[i][j]==1 && treeAdjMat[i][j]==0)
+                if(adjMatrix.at(i).at(j)==1 && treeAdjMat.at(i).at(j)==0)
                 {
-                    indm[i][j+k]=1;
-                    indm[j][i+k]=1;
+                    //std::cerr << " i = " << i << " and indm.size() = " << indm.size() << "\n";
+                    std::cerr << " j+k = " << j+k << " and indm.at(i).size() = " << indm.at(i).size() << "\n";
+                    indm.at(i).at(j+k)=1;
+                    indm.at(j).at(i+k)=1;
                     k = k + r + 1;
                 }
         /*I remove the segments that are outside the loop (see drawing)*/
@@ -256,13 +258,13 @@ public:
                 done=1;
                 for(i=0; i<r; i++){
                     for(j=0; j<r; j++) /*Count how many ones are on a line*/
-                        if(indm[i][j+k]==1)
+                        if(indm.at(i).at(j+k)==1)
                             nu++;
                     if(nu==1)       /*if there is only one,  make it null*/
                         for(j=0; j<r; j++)    /*I am in the j of 1*/
-                            if(indm[i][j+k]==1){
-                                indm[i][j+k]=0;
-                                indm[j][i+k]=0;
+                            if(indm.at(i).at(j+k)==1){
+                                indm.at(i).at(j+k)=0;
+                                indm.at(j).at(i+k)=0;
                                 done=0;
                             }
                     nu=0;
@@ -281,15 +283,15 @@ public:
         {
             for (j = 0; j < r; j++)
             {
-                std::cout << to_string(adjMatrix[i][j]) << " ";
+                std::cout << to_string(adjMatrix.at(i).at(j)) << " ";
             }
             std::cout << "\t";
 
             for (j = 0; j < r; j++)
             {
-                std::cout << std::to_string(treeAdjMat[i][j]) << " ";
+                std::cout << std::to_string(treeAdjMat.at(i).at(j)) << " ";
             }
-            std::cout << std::endl;
+            std::cout << "\n";
         }
     }
 };
