@@ -9,23 +9,27 @@
 #include <string>
 #include <vector>
 #include <iterator>
-graph read_graph(std::istream &stream){
-    std::string dummy;
+
+auto readMatrix(auto &stream)
+{
+    int r; std::string dummy;
+    vector<vector<float>> vec;
+    for (auto &row : vec)
+    {
+        row.resize(r);
+    }
     std::getline(stream, dummy);
     std::getline(stream, dummy);
-    int r;
-    stream >> r;
-    std::getline(stream, dummy);
-    std::getline(stream, dummy);
-    graph g(r);
-    for (int i = 0;i != r;++i)
-        for (int j = 0;j != r;++j){
-            bool value;
-            stream >> value;
-            if(i <= j && value)
-                g.addEdge(i,j);
+    for(auto &row : vec)
+    {
+        for(auto &element : row)
+        {
+            //  bool value;
+            stream >> element;
+            //  element = value;
         }
-    return g;
+    }
+    return vec;
 }
 
 auto read_model(auto &stream){
@@ -44,48 +48,11 @@ auto read_model(auto &stream){
             if(i <= j && value)
                 g.addEdge(i,j);
         }
-    int m;
-    mesh mesh1;
-    vector<vector<float>> res(r);
-    for (auto &row : res)
-    {
-        row.resize(r);
-    }
-    std::getline(stream, dummy);
-    std::getline(stream, dummy);
-
-    for(auto &row : res)
-    {
-        for(auto &element : row)
-        {
-            //  bool value;
-            stream >> element;
-            //  element = value;
-        }
-    }
-
-    vector<vector<float>> volt(r);
-    for (auto &row : volt)
-    {
-        row.resize(r);
-    }
-
-    std::getline(stream, dummy);
-    std::getline(stream, dummy);
-
-    for(auto &row : volt)
-    {
-        for(auto &element : row)
-        {
-            stream >> element;
-        }
-    }
+    vector<vector<float>> res = readMatrix(stream);
+    vector<vector<float>> volt = readMatrix(stream);
     return std::make_tuple(g, res, volt);
 }
 
-//graph read_resistance(std::istream &stream){
-//    std::string dummy;
-//}
 int main()
 {
     std::ifstream file_stream("inputmat8.dat"); // create an input file stream
@@ -99,11 +66,11 @@ int main()
     else {
         std::cout << "\nData file opened successfully!\n";
     }
-    graph g = read_graph(file_stream);
+    auto[G, R, V] = read_model(file_stream);
     mesh mesh1;
-    mesh1.print_matrix(g.getAdjMat());
+    mesh1.print_matrix(G.getAdjMat());
     std::vector<int> cycles;
-    g.Gotlieb123(std::back_inserter(cycles));   // SF from here
+    G.Gotlieb123(std::back_inserter(cycles));   // SF from here
     std::ofstream of("cycles.data");
     print_cycles(std::begin(cycles), std::end(cycles), std::cout);
     print_cycles(std::begin(cycles), std::end(cycles), of);
