@@ -21,7 +21,7 @@ class graph {
     int countDifference(auto &treeAdjMat_i, auto &adjMatrix_i)
     {
         int n_differences = 0;
-        for(int j=0; j<treeAdjMat_i.size()-1; j++)
+        for(int j=0; j<treeAdjMat_i.size()/*-1*/; j++)
             if(treeAdjMat_i[j]!=adjMatrix_i[j])
                 ++n_differences;
         return n_differences;
@@ -37,6 +37,9 @@ public:
         adjMatrix[i][j] = true;
         adjMatrix[j][i] = true;
     }
+
+    int size() const { return r; };
+
 
     void removeEdge(int i, int j)
     {
@@ -207,19 +210,22 @@ public:
         return adjMatrix;
     }
 
-    std::vector<std::vector<int>> Gotlieb4(std::size_t r, int *m, std::vector<std::vector<bool>> &adjMatrix)
+    /*std::vector<std::vector<int>>*/ auto Gotlieb4(/*std::size_t r, int *m, const std::vector<std::vector<bool>> &adjMatrix*/)
     {
-        *m = 0; int k, c, nu, done; size_t i, j;
+//        graph g(r);
+//         g.size();
+        int m = 0; //std::vector<std::vector<bool>> adjMatrix;         std::size_t r = adjMatrix.size();
+        int k, c, nu, done; size_t i, j;
 
-        for(i=0; i<r; i++)
+        for(i=0; i<r; ++i)
         {
             std::vector<int> &treeAdjMat_i = treeAdjMat[i];
             std::vector<bool> &adjMatrix_i = adjMatrix[i];
             //int n_differences = 0;
             assert(r==treeAdjMat_i.size());
-            *m += countDifference(treeAdjMat_i,adjMatrix_i);
+            m += countDifference(treeAdjMat_i,adjMatrix_i);
         }
-        int &count = *m;
+        int &count = m;
         count /= 2;
         //count how many sides have to be eliminated to obtain the tree graph = number of independent links
         c = r*count + count + 1;
@@ -229,18 +235,18 @@ public:
             indm[i].resize(c);
         }
         for (j = 0; j < c-r; j = j+r+1)
-            for (size_t i = 0; i<r; i++)
+            for (size_t i = 0; i<r; ++i)
                 indm.at(i).at(j) = -4;
-        for (i = 0; i < r; i++)
+        for (i = 0; i < r; ++i)
             indm.at(i).at(c-1)=-5;
         for (k = 1; k < c; k=k+r+1)
-            for(i = 0; i < r; i++)
-                for(j = 0; j < r; j++)
+            for(i = 0; i < r; ++i)
+                for(j = 0; j < r; ++j)
                     indm.at(i).at(j+k) = treeAdjMat.at(i).at(j);
         // add the sides at a time
         k = 1;
-        for(i = 0; i < r; i++)
-            for(j = i+1; j<r; j++)
+        for(i = 0; i < r; ++i)
+            for(j = i+1; j<r; ++j)
                 if(adjMatrix.at(i).at(j)==1 && treeAdjMat.at(i).at(j)==0)
                 {
                     //std::cerr << " i = " << i << " and indm.size() = " << indm.size() << "\n";
@@ -272,21 +278,21 @@ public:
             done=0;
         }
 
-        return indm;
+        return std::make_tuple(m, indm);
     }
 
     void printMat()
     {
         int i, j;
-        for (i = 0; i < r; i++ )
+        for (i = 0; i < r; ++i )
         {
-            for (j = 0; j < r; j++)
+            for (j = 0; j < r; ++j)
             {
                 std::cout << to_string(adjMatrix.at(i).at(j)) << " ";
             }
             std::cout << "\t";
 
-            for (j = 0; j < r; j++)
+            for (j = 0; j < r; ++j)
             {
                 std::cout << std::to_string(treeAdjMat.at(i).at(j)) << " ";
             }

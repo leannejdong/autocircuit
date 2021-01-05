@@ -67,7 +67,8 @@ public:
 
     vector<vector<float>> createmat(int m, int r, vector<vector<int>> &mcurrent, vector<vector<float>> &res, int c)
     {
-        int k, kk, ii, jj, i, j;
+
+        int  k, kk, ii, jj, i, j;
         vector<vector<float>> a(m);
         for (auto &row : a)
         {
