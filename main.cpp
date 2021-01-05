@@ -72,8 +72,8 @@ int main()
     auto [G, R, V] = read_model(file_stream);
 
     mesh mesh1;
-    //mesh1.print_matrix(G);
-//    mesh1.print_matrix(R);
+    mesh1.print_matrix(G.getAdjMat());
+    mesh1.print_matrix(R);
 //    mesh1.print_matrix(V);
 
    // mesh1.print_matrix(G.getAdjMat());
