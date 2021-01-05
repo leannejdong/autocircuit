@@ -52,6 +52,9 @@ auto read_model(auto &stream){
     vector<vector<float>> volt = readMatrix(stream);
     return std::make_tuple(g, res, volt);
 }
+constexpr auto ERROR = 1.0e-3;
+static void printIndmTo(std::ostream &stream, const vector<vector<int>> &indm);
+static void printIndm(const vector<vector<int>> &indm);
 
 int main()
 {
@@ -66,24 +69,62 @@ int main()
     else {
         std::cout << "\nData file opened successfully!\n";
     }
-    auto[G, R, V] = read_model(file_stream);
+    auto [G, R, V] = read_model(file_stream);
+
     mesh mesh1;
-    mesh1.print_matrix(G.getAdjMat());
+    //mesh1.print_matrix(G);
+//    mesh1.print_matrix(R);
+//    mesh1.print_matrix(V);
+
+   // mesh1.print_matrix(G.getAdjMat());
     std::vector<int> cycles;
     G.Gotlieb123(std::back_inserter(cycles));   // SF from here
     std::ofstream of("cycles.data");
     print_cycles(std::begin(cycles), std::end(cycles), std::cout);
     print_cycles(std::begin(cycles), std::end(cycles), of);
-
-//    vector<vector<int>> mcurrent = g.Gotlieb4(r, &m, adjMatrix);
+   // int m;
+    auto [m, mcurrent] = G.Gotlieb4(/*G.size(), &m, G.getAdjMat()*/);
 //    //printIndm(output);
-//    std::ofstream outfile1("indm.txt");
-//    printIndmTo(outfile1, mcurrent);
-//    mesh1.print_matrix(mcurrent);
-
-
-
-
-
+    std::ofstream outfile1("indm.txt");
+    printIndmTo(outfile1, mcurrent);
+    mesh1.print_matrix(mcurrent);
+    auto c = G.size()*m + m + 1;
+    std::cerr << c << "\n";
+    mesh1.setdircur(G.size(), c, mcurrent);
+    std::cerr << G.size() << "\n";
+//    auto a = mesh1.createmat(m, G.size(),mcurrent, R, c);
+//    mesh1.print_matrix(a);
 
 }
+
+static void printIndmTo(std::ostream &stream, const vector<vector<int>> &indm)
+{
+    //ostream &stream = cerr;
+    for (size_t i=0; i!=indm.size(); ++i)
+    {
+        for (size_t j=0; j!=indm[i].size(); ++j)
+        {
+            if(j != 0)
+            {
+                stream << " ";
+            }
+            stream << indm[i][j];
+        }
+        stream << "\n";
+    }
+}
+
+//static void printIndm(const vector<vector<int>> &indm)
+//{
+//    std::ostream &stream = std::cerr;
+//
+//    for (size_t i=0; i!=indm.size(); ++i) {
+//        for (size_t j=0; j!=indm[i].size(); ++j) {
+//            if (j != 0) {
+//                stream << "  ";
+//            }
+//            stream << indm[i][j];
+//        }
+//        stream << "\n";
+//    }
+//}
