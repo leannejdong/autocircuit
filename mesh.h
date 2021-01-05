@@ -16,6 +16,7 @@ private:
     std::vector<std::vector<int>> indx;
 
 public:
+
     template <typename MultiArray2d>
     void setdircur(int r, int c, MultiArray2d &mcurrent)
     //void setdircur(int r, int c, std::vector<std::vector<int>> &mcurrent)
