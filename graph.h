@@ -31,10 +31,9 @@ public:
     // Initialize the matrix to zero
     graph(int r) : r(r), adjMatrix(r, std::vector<bool>(r, false)),
                    treeAdjMat(r, std::vector<int>(r)) {}
-
     void addEdge(int i, int j)
     {
-        assert(i >= 0 && i < r && j > 0 && j < r);
+        assert(i >= 0 && i < r && j >= 0 && j < r);
         adjMatrix[i][j] = true;
         adjMatrix[j][i] = true;
     }
