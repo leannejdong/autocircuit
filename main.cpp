@@ -13,11 +13,6 @@
 auto readMatrix(auto &stream, int r)
 {
     std::string dummy;
-//    vector<vector<float>> vec;
-//    for (auto &row : vec)
-//    {
-//        row.resize(r);
-//    }
     std::vector<std::vector<float>> vec(r,std::vector<float>(r));
     std::getline(stream, dummy);
     std::getline(stream, dummy);

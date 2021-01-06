@@ -41,20 +41,20 @@ public:
     int size() const { return r; };
 
 
-    void removeEdge(int i, int j)
-    {
-        assert(i >= 0 && i < r && j > 0 && j < r);
-        adjMatrix[i][j] = false;
-        adjMatrix[j][i] = false;
-    }
-
-    bool isEdge(int i, int j)
-    {
-        if (i >= 0 && i < r && j > 0 && j < r)
-            return adjMatrix[i][j];
-        else
-            return false;
-    }
+//    void removeEdge(int i, int j)
+//    {
+//        assert(i >= 0 && i < r && j > 0 && j < r);
+//        adjMatrix[i][j] = false;
+//        adjMatrix[j][i] = false;
+//    }
+//
+//    bool isEdge(int i, int j)
+//    {
+//        if (i >= 0 && i < r && j > 0 && j < r)
+//            return adjMatrix[i][j];
+//        else
+//            return false;
+//    }
 
 
 
