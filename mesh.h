@@ -115,10 +115,11 @@ public:
              return a;
     }
 
-    void createb(std::vector<float> &b, int r, int c, int m, std::vector<std::vector<float>> &volt, std::vector<std::vector<int>> &mcurrent)
+    auto createb( int r, int c, int m, std::vector<std::vector<float>> &volt, std::vector<std::vector<int>> &mcurrent)
     {
+        std::vector<float> b;
         int i, j, k;
-
+      //  std::vector<float> b;
         //initialise b to 0
         b=vector<float> (m, 0);
 
@@ -135,6 +136,7 @@ public:
                 }
             }
         }
+        return b;
 
     }
     template <typename Matrix>
@@ -146,6 +148,14 @@ public:
             copy(begin(row), end(row), ostream_iterator<T>(std::cout, " "));
             std::cout << "\n";
         }
+    }
+
+    template <typename Vector>
+    void print_vector(Vector const &v)
+    {
+            using T = typename std::iterator_traits<decltype(begin(v))>::value_type;
+            copy(begin(v), end(v), ostream_iterator<T>(std::cout, " "));
+            std::cout << "\n";
     }
 };
 

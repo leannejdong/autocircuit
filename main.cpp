@@ -73,14 +73,18 @@ int main()
     auto [G, R, V] = read_model(file_stream);
 
     mesh mesh1;
+    std::cout << "Print graph " << "\n";
     mesh1.print_matrix(G.getAdjMat());
+    std::cout << "Print Resistance " << "\n";
     mesh1.print_matrix(R);
-//    mesh1.print_matrix(V);
+    std::cout << "Print Voltage " << "\n";
+    mesh1.print_matrix(V);
 
    // mesh1.print_matrix(G.getAdjMat());
     std::vector<int> cycles;
     G.Gotlieb123(std::back_inserter(cycles));   // SF from here
     std::ofstream of("cycles.data");
+    std::cout << "Print Cycles " << "\n";
     print_cycles(std::begin(cycles), std::end(cycles), std::cout);
     print_cycles(std::begin(cycles), std::end(cycles), of);
    // int m;
@@ -88,13 +92,23 @@ int main()
 //    //printIndm(output);
     std::ofstream outfile1("indm.txt");
     printIndmTo(outfile1, mcurrent);
+    std::cout << "Print mcurrent " << "\n";
     mesh1.print_matrix(mcurrent);
     auto c = G.size()*m + m + 1;
-    std::cerr << c << "\n";
+   // std::cerr << c << "\n";
     mesh1.setdircur(G.size(), c, mcurrent);
-    std::cerr << G.size() << "\n";
+   // std::cerr << G.size() << "\n";
     auto a = mesh1.createmat(m, G.size(),mcurrent, R, c);
+    std::cout << "Print A " << "\n";
     mesh1.print_matrix(a);
+    auto b = mesh1.createb(G.size(), c, m, V, mcurrent);
+    auto x = mesh1.createb(G.size(), c, m, V, mcurrent);
+    cout << "Here is the rhs b:\n" << "\n";
+    mesh1.print_vector(b);
+    cout << "Here is the rhs x:\n" << "\n";
+    mesh1.print_vector(x);
+    VectorXf eigenb = makeEigenVectorFromVectors(b);
+    cout << "Here is the rhs b:\n" << eigenb << "\n";
 
 }
 
