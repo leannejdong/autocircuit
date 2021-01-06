@@ -129,10 +129,15 @@ public:
             {
                 for(j = 0; j < r; j++)
                 {
-                    if(mcurrent[i][j+k]==1 && volt[i][j]!=0)
+                    if(mcurrent[i][j+k]== 1 && volt[i][j]!=0)
                     {
                         b[k/r]+= volt[i][j];
                     }
+                   // std::cerr << mcurrent[i][j+k] << " and " << volt[i][j] << "\n";
+
+//                    std::cerr << mcurrent[i][j+k] << " and " <<volt[i][j] << "\t";
+//                    std::cerr << "\n";
+                 //   std::cerr << b[k/r] << "\n";
                 }
             }
         }

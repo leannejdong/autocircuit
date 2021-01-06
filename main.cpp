@@ -59,7 +59,7 @@ static void printIndm(const vector<vector<int>> &indm);
 
 int main()
 {
-    std::ifstream file_stream("inputmat8.dat"); // create an input file stream
+    std::ifstream file_stream("inputmat.dat"); // create an input file stream
     if (!file_stream) {
         std::cerr << "Unable to open inputmat.dat\n";
         return EXIT_FAILURE;
@@ -101,6 +101,8 @@ int main()
     auto a = mesh1.createmat(m, G.size(),mcurrent, R, c);
     std::cout << "Print A " << "\n";
     mesh1.print_matrix(a);
+    MatrixXf A = makeEigenMatrixFromVectors(a);
+    cout << "Here is the matrix A:\n" << A << endl;
     auto b = mesh1.createb(G.size(), c, m, V, mcurrent);
     auto x = mesh1.createb(G.size(), c, m, V, mcurrent);
     cout << "Here is the rhs b:\n" << "\n";
@@ -109,7 +111,42 @@ int main()
     mesh1.print_vector(x);
     VectorXf eigenb = makeEigenVectorFromVectors(b);
     cout << "Here is the rhs b:\n" << eigenb << "\n";
+    VectorXf eigenx = makeEigenVectorFromVectors(x);
+    cout << "Here is the  x:\n" << eigenx << endl;
+    VectorXf soln0 = A.colPivHouseholderQr().solve(eigenb);
+    cout << "The solution is:\n" << soln0 << endl;
+    vector<float> vec_soln = makeVectorsFromEigen(soln0);
+    Eigen::FullPivLU<Eigen::MatrixXf> lu(A);
+    VectorXf soln = lu.solve(eigenb);
+    cout << "The solution is : \n" << soln << endl;
 
+    double err2 = computeDifference(A, soln, eigenb).squaredNorm();
+
+    const int max_it = 10;
+
+    std::cout << "Error before: " << std::sqrt(err2) << std::endl;
+    int it = 0;
+    do {
+        // refine solution
+        solnrefine(lu, A, eigenb, soln);
+        // compute new error
+        // could also just use
+        err2 = computeDifference(A, soln, eigenb).squaredNorm();
+        it++;
+        // more for debug
+        std::cout << " Error after step: " << it << ": " << std::sqrt(err2) << std::endl;
+    } while (err2 > ERROR * ERROR && it < max_it);
+
+    vec_soln = makeVectorsFromEigen(soln);
+
+    auto current = sovr(c, G.size(), mcurrent, vec_soln, m);
+    mesh1.print_matrix(current);
+    std::ostringstream output_stream;
+    voltage(G.size(), R, current, V, output_stream);
+    std::string output = output_stream.str();
+    std::cerr << output << "\n";
+    std::ofstream file_stream1("voltage.dat");
+    file_stream1 << output;
 }
 
 static void printIndmTo(std::ostream &stream, const vector<vector<int>> &indm)

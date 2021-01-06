@@ -4,7 +4,7 @@
 #include "eigenutil.h"
 #include <vector>
 
-std::vector<std::vector<float> > sovr(int c, int r, std::vector<std::vector<int> > &mcurrent, std::vector<float> &x, int m)
+/*std::vector<std::vector<float> >*/ auto sovr(int c, int r, std::vector<std::vector<int> > &mcurrent, std::vector<float> &x, int m)
 {
     int i, j, k, n;
     using std::vector;
