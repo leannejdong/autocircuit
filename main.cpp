@@ -10,14 +10,15 @@
 #include <vector>
 #include <iterator>
 
-auto readMatrix(auto &stream)
+auto readMatrix(auto &stream, int r)
 {
-    int r; std::string dummy;
-    vector<vector<float>> vec;
-    for (auto &row : vec)
-    {
-        row.resize(r);
-    }
+    std::string dummy;
+//    vector<vector<float>> vec;
+//    for (auto &row : vec)
+//    {
+//        row.resize(r);
+//    }
+    std::vector<std::vector<float>> vec(r,std::vector<float>(r));
     std::getline(stream, dummy);
     std::getline(stream, dummy);
     for(auto &row : vec)
@@ -48,8 +49,8 @@ auto read_model(auto &stream){
             if(i <= j && value)
                 g.addEdge(i,j);
         }
-    vector<vector<float>> res = readMatrix(stream);
-    vector<vector<float>> volt = readMatrix(stream);
+    auto res = readMatrix(stream, r);
+    auto volt = readMatrix(stream, r);
     return std::make_tuple(g, res, volt);
 }
 constexpr auto ERROR = 1.0e-3;
@@ -92,8 +93,8 @@ int main()
     std::cerr << c << "\n";
     mesh1.setdircur(G.size(), c, mcurrent);
     std::cerr << G.size() << "\n";
-//    auto a = mesh1.createmat(m, G.size(),mcurrent, R, c);
-//    mesh1.print_matrix(a);
+    auto a = mesh1.createmat(m, G.size(),mcurrent, R, c);
+    mesh1.print_matrix(a);
 
 }
 
