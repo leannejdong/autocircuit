@@ -65,11 +65,11 @@ public:
         }
     }
 
-    vector<vector<float>> createmat(int m, int r, vector<vector<int>> &mcurrent, vector<vector<float>> &res, int c)
+    std::vector<std::vector<float>> createmat(int m, int r, std::vector<std::vector<int>> &mcurrent, std::vector<std::vector<float>> &res, int c)
     {
 
         int  k, kk, ii, jj, i, j;
-        vector<vector<float>> a(m);
+        std::vector<std::vector<float>> a(m);
         for (auto &row : a)
         {
             row.resize(m, 0);
@@ -121,7 +121,7 @@ public:
         int i, j, k;
       //  std::vector<float> b;
         //initialise b to 0
-        b=vector<float> (m, 0);
+        b=std::vector<float> (m, 0);
 
         for(k = 1; k < c-1; k += r+1)
         {
@@ -150,7 +150,7 @@ public:
         for (auto const &row : m)
         {
             using T = typename std::iterator_traits<decltype(begin(row))>::value_type; //iterator_traits allowed me to get rid of the print_matrix specialization of C-style array
-            copy(begin(row), end(row), ostream_iterator<T>(std::cout, " "));
+            copy(begin(row), end(row), std::ostream_iterator<T>(std::cout, " "));
             std::cout << "\n";
         }
     }
@@ -159,7 +159,7 @@ public:
     void print_vector(Vector const &v)
     {
             using T = typename std::iterator_traits<decltype(begin(v))>::value_type;
-            copy(begin(v), end(v), ostream_iterator<T>(std::cout, " "));
+            copy(begin(v), end(v), std::ostream_iterator<T>(std::cout, " "));
             std::cout << "\n";
     }
 };
