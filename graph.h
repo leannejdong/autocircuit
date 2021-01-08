@@ -12,7 +12,6 @@
 #include <cassert>
 #include <fstream>
 
-using namespace std;
 class graph {
     int r;
     std::vector<std::vector<bool>> adjMatrix;
