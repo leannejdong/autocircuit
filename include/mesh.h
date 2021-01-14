@@ -1,6 +1,6 @@
-//
-// Created by leanne on 8/17/20.
-//
+/*!
+ * The mesh.h is for setting orientation of circuit
+ */
 
 #ifndef AUTOCIRCUIT_MESH_H
 #define AUTOCIRCUIT_MESH_H

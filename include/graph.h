@@ -1,4 +1,7 @@
-
+/*!
+ * The graph class provides all the necessary graph operations
+ * and advanced algorithms
+ */
 
 #ifndef AUTOCIRCUIT_GRAPH_H
 #define AUTOCIRCUIT_GRAPH_H
@@ -14,7 +17,7 @@
 
 class graph {
     int r;
-    std::vector<std::vector<bool>> adjMatrix;
+    std::vector<std::vector<int>> adjMatrix;
     std::vector<std::vector<int>> treeAdjMat;
 
     int countDifference(auto &treeAdjMat_i, auto &adjMatrix_i)
@@ -28,13 +31,13 @@ class graph {
 
 public:
     // Initialize the matrix to zero
-    graph(int r) : r(r), adjMatrix(r, std::vector<bool>(r, false)),
+    graph(int r) : r(r), adjMatrix(r, std::vector<int>(r, 0)),
                    treeAdjMat(r, std::vector<int>(r)) {}
     void addEdge(int i, int j)
     {
         assert(i >= 0 && i < r && j >= 0 && j < r);
-        adjMatrix[i][j] = true;
-        adjMatrix[j][i] = true;
+        ++adjMatrix[i][j] ;
+        ++adjMatrix[j][i] ;
     }
 
     int size() const { return r; };
@@ -43,8 +46,8 @@ public:
 //    void removeEdge(int i, int j)
 //    {
 //        assert(i >= 0 && i < r && j > 0 && j < r);
-//        adjMatrix[i][j] = false;
-//        adjMatrix[j][i] = false;
+//         ++adjMatrix[i][j] ;
+    //     ++adjMatrix[j][i] ;
 //    }
 //
 //    bool isEdge(int i, int j)
@@ -129,7 +132,7 @@ public:
                 visited[v] = true;
                 component[v] = 1;
                 s.pop();
-                for (std::size_t w = 0; w < r; w++)
+                for (size_t w = 0; w < r; ++w)
                 {
                     if (treeAdjMat[v][w] && !visited[w])
                     {
@@ -142,7 +145,7 @@ public:
         // Now focus on finding cycle base
         /* Block 3: Here the connected components are amalgamated by
         adding appropriate edges to the adjacency matrix B (treeAdjMat)
-        Example: edge(2, 5) and (2, 6) are added back to B
+        Example: edge(2, 7) and (3, 6) are added back to B
         */
         //NOTE:
         //  some utility functions for connected components - jeh
@@ -165,7 +168,21 @@ public:
                               continue;
                           for (int j = 0; j < r; ++j){
                               if(adjMatrix[i][j] == 1 && !small[j]){
-                                  treeAdjMat[i][j] = 1;
+                                  treeAdjMat[i][j] = 1;struct Matrix {
+                                      Matrix(int r) : storage_(r*r), size_(r) {}
+
+                                      int& operator()(int i, int j)       noexcept {
+                                          // std::cerr << "i= " << i << "and j= " << j << " and size_ =" << size_ << "\n";
+                                          return storage_[i + size_*(j)]; }
+                                      const int&  operator()(int i, int j) const noexcept { return storage_[i + size_*(j)]; }
+
+                                      int size() const noexcept { return size_; }
+
+                                  private:
+                                      std::vector<int> storage_;
+                                      int size_;
+                                  };
+
                                   treeAdjMat[j][i] = 1;
                                   return toComponent(j);
                               }
@@ -204,7 +221,7 @@ public:
         return cycles;
     }
 
-    const std::vector<std::vector<bool>> &getAdjMat() const
+    const std::vector<std::vector<int>> &getAdjMat() const
     {
         return adjMatrix;
     }
@@ -219,7 +236,7 @@ public:
         for(i=0; i<r; ++i)
         {
             std::vector<int> &treeAdjMat_i = treeAdjMat[i];
-            std::vector<bool> &adjMatrix_i = adjMatrix[i];
+            std::vector<int> &adjMatrix_i = adjMatrix[i];
             //int n_differences = 0;
             assert(r==treeAdjMat_i.size());
             m += countDifference(treeAdjMat_i,adjMatrix_i);
@@ -287,7 +304,7 @@ public:
         {
             for (j = 0; j < r; ++j)
             {
-                std::cout << to_string(adjMatrix.at(i).at(j)) << " ";
+                std::cout << std::to_string(adjMatrix.at(i).at(j)) << " ";
             }
             std::cout << "\t";
 

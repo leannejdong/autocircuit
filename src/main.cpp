@@ -1,14 +1,14 @@
-#include "mesh.h"
-#include "graph.h"
-#include "eigenconv.h"
-#include "eigenutil.h"
-#include "sovr.h"
-#include "voltage.h"
-#include <iostream>
+#include "../include/eigenconv.h"
+#include "../include/eigenutil.h"
+#include "../include/graph.h"
+#include "../include/mesh.h"
+#include "../include/sovr.h"
+#include "../include/voltage.h"
 #include <fstream>
+#include <iostream>
+#include <iterator>
 #include <string>
 #include <vector>
-#include <iterator>
 
 auto readMatrix(auto &stream, int r)
 {

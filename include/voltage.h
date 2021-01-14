@@ -1,3 +1,7 @@
+/*!
+ * The voltage class calculate voltage for each resistance
+ */
+
 #include <sstream>
 #include <assert.h>
 #include <stdio.h>
