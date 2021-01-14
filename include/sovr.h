@@ -1,7 +1,10 @@
+/*!
+ * The sovr.h is for solving system of equations
+ */
 #ifndef CIRCUIT_SOVR_H
 #define CIRCUIT_SOVR_H
-#include <iostream>
 #include "eigenutil.h"
+#include <iostream>
 #include <vector>
 
 /*std::vector<std::vector<float> >*/ auto sovr(int c, int r, std::vector<std::vector<int> > &mcurrent, std::vector<float> &x, int m)
