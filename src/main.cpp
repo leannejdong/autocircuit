@@ -31,6 +31,7 @@ int main()
 
     mesh mesh1;
     std::cout << "Print graph " << "\n";
+    //! Derive adjacency matrix based on the parsed data
     mesh1.print_matrix(G.getAdjMat());
 //    std::cout << "Print Resistance " << "\n";
 //    mesh1.print_matrix(R);
@@ -39,6 +40,7 @@ int main()
 
    // mesh1.print_matrix(G.getAdjMat());
     std::vector<int> cycles;
+    // find cycles from the  adjacency matrix
     G.Gotlieb123(std::back_inserter(cycles));
     std::ofstream of("cycles.data");
     std::cout << "Print Cycles " << "\n";
